@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -27,7 +28,20 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# i18n setup
+LANGUAGE_CODE = 'en'
 
+# i18n setup
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, 'locale'),
+)
+
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('ja', _('Japanese')),
+    ('ko', _('Korean')),
+]
 # Application definition
 
 INSTALLED_APPS = [
@@ -38,11 +52,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'formtest',
+    'sessiontest',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware', # added for i18n
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -118,4 +135,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
-STATIC_URL = '/static/'
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/2.2/howto/static-files/
+
+# this is the statics files context path when request the statics file in url.
+# for example http://127.0.0.1:8000/static/js/jquery-3.3.1.min.js
+STATIC_URL = '/statics/'
+
+# this is the statics files folder name which you created in django project root folder.
+# This is different from above STATIC_URL.
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'statics'),
+]
